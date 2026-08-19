@@ -27,7 +27,7 @@ cargo run
 
 | Arg             | Short | Description                                    | Default                     |
 | --------------- | ----- | ---------------------------------------------- | --------------------------- |
-| `--ai-url`      | `-u`  | Base URL for Ollama/OpenAI-compatible endpoint | `http://localhost:11434/v1` |
+| `--ai-url`      | `-a`  | Base URL for Ollama/OpenAI-compatible endpoint | `http://localhost:11434/v1` |
 | `--model`       | `-m`  | Model name to use (e.g., `llama3`, `mistral`)  | `llama3`                    |
 | `--interactive` | `-i`  | Force interactive mode (skip AI)               | —                           |
 
