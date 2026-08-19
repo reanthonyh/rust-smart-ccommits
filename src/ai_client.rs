@@ -7,6 +7,7 @@ struct ChatRequest {
     model: String,
     messages: Vec<Message>,
     temperature: f32,
+    max_tokens: u32,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -62,6 +63,7 @@ Rules:
             },
         ],
         temperature: 0.3, // Low temperature for strict formatting
+        max_tokens: 500,
     };
 
     let response = client
