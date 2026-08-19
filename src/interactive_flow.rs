@@ -1,5 +1,6 @@
 use anyhow::Result;
 use inquire::{Confirm, Select, Text};
+use inquire::validator::Validation;
 
 const TYPES: &[&str] = &[
     "feat", "fix", "docs", "style", "refactor", "perf", "test", "build", "ci", "chore",
@@ -36,15 +37,11 @@ pub fn run(sanitized_diff: &str) -> Result<String> {
     let title = Text::new("Commit title (imperative mood, e.g., 'add user login'):")
         .with_validator(|val: &str| {
             if val.is_empty() {
-                Err(inquire::ValidatorValidation::Invalid(
-                    "Title cannot be empty".into(),
-                ))
+                Err("Title cannot be empty".into())
             } else if val.len() > 50 {
-                Err(inquire::ValidatorValidation::Invalid(
-                    "Keep it under 50 characters".into(),
-                ))
+                Err("Keep it under 50 characters".into())
             } else {
-                Ok(inquire::ValidatorValidation::Valid)
+                Ok(Validation::Valid)
             }
         })
         .prompt()?;
