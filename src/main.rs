@@ -5,6 +5,7 @@ mod interactive_flow;
 
 use anyhow::Result;
 use clap::Parser;
+use tracing_subscriber::{fmt, EnvFilter};
 
 #[derive(Parser, Debug)]
 #[command(author, version, about = "AI-powered conventional commit generator")]
@@ -24,6 +25,10 @@ struct Args {
 
 #[tokio::main]
 async fn main() -> Result<()> {
+    fmt()
+        .with_env_filter(EnvFilter::from_default_env())
+        .init();
+
     let args = Args::parse();
 
     // 1. Get and summarize the diff

@@ -1,6 +1,7 @@
 use anyhow::{Context, Result};
 use reqwest::Client;
 use serde::{Deserialize, Serialize};
+use tracing::debug;
 
 #[derive(Serialize)]
 struct ChatRequest {
@@ -71,12 +72,18 @@ Rules:
         .json(&request)
         .send()
         .await
-        .context("Failed to send request to AI server")?
-        .json::<ChatResponse>()
-        .await
+        .context("Failed to send request to AI server")?;
+
+    let status = response.status();
+    let response_text = response.text().await.context("Failed to read response body")?;
+    
+    debug!("AI response status: {}", status);
+    debug!("AI raw response: {}", response_text);
+
+    let chat_response: ChatResponse = serde_json::from_str(&response_text)
         .context("Failed to parse AI response")?;
 
-    let content = response
+    let content = chat_response
         .choices
         .first()
         .context("AI returned empty choices")?
